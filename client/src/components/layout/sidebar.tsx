@@ -15,8 +15,8 @@ interface NavItemProps {
 function NavItem({ href, icon, label, isActive }: NavItemProps) {
   return (
     <Link href={href}>
-      <a 
-        className={`block px-4 py-2 ${
+      <div 
+        className={`block px-4 py-2 cursor-pointer ${
           isActive 
             ? 'bg-primary bg-opacity-10 border-l-4 border-primary' 
             : 'hover:bg-gray-100 border-l-4 border-transparent'
@@ -30,7 +30,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
             {label}
           </span>
         </div>
-      </a>
+      </div>
     </Link>
   );
 }

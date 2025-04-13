@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Plus, Bell } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { User } from '@shared/schema';
+import { GlobalSearch } from '@/components/search/global-search';
 
 interface HeaderProps {
   openMobileMenu: () => void;
@@ -16,7 +17,7 @@ export function Header({ openMobileMenu }: HeaderProps) {
 
   return (
     <header className="bg-white p-4 md:p-6 shadow-sm">
-      <div className="flex flex-col md:flex-row md:items-center justify-between">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
         <div>
           <h1 className="font-bold text-2xl text-[#283E4A]">Welcome back, {firstName}</h1>
           <p className="text-gray-500">Here's what's happening with your network today</p>
@@ -30,6 +31,11 @@ export function Header({ openMobileMenu }: HeaderProps) {
             <Bell className="h-5 w-5 text-[#283E4A]" />
           </Button>
         </div>
+      </div>
+      
+      {/* Global Search */}
+      <div className="w-full mt-4 md:mt-0">
+        <GlobalSearch />
       </div>
     </header>
   );
