@@ -1,0 +1,122 @@
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { User } from '@shared/schema';
+import { useQuery } from '@tanstack/react-query';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
+
+interface NavItemProps {
+  href: string;
+  icon: string;
+  label: string;
+  isActive: boolean;
+}
+
+function NavItem({ href, icon, label, isActive }: NavItemProps) {
+  return (
+    <Link href={href}>
+      <a 
+        className={`block px-4 py-2 ${
+          isActive 
+            ? 'bg-primary bg-opacity-10 border-l-4 border-primary' 
+            : 'hover:bg-gray-100 border-l-4 border-transparent'
+        }`}
+      >
+        <div className="flex items-center">
+          <span className={`material-icons mr-3 ${isActive ? 'text-primary' : 'text-textDark'}`}>
+            {icon}
+          </span>
+          <span className={isActive ? 'font-medium text-primary' : ''}>
+            {label}
+          </span>
+        </div>
+      </a>
+    </Link>
+  );
+}
+
+export function Sidebar() {
+  const [location] = useLocation();
+  
+  const { data: user } = useQuery<User>({
+    queryKey: ['/api/users/current'],
+  });
+
+  const navItems = [
+    { href: '/', icon: 'dashboard', label: 'Dashboard' },
+    { href: '/jobs', icon: 'work', label: 'Job Listings' },
+    { href: '/contacts', icon: 'people', label: 'Contacts' },
+    { href: '/marketing', icon: 'campaign', label: 'Marketing' },
+    { href: '/analytics', icon: 'analytics', label: 'Analytics' },
+  ];
+
+  const toolItems = [
+    { href: '/gemini', icon: 'smart_toy', label: 'Gemini AI' },
+    { href: '/settings', icon: 'settings', label: 'Settings' },
+  ];
+
+  // Function to get initials from name
+  const getInitials = (name: string = '') => {
+    return name
+      .split(' ')
+      .map(part => part[0])
+      .join('')
+      .toUpperCase();
+  };
+
+  return (
+    <div className="w-64 bg-white shadow-lg hidden md:flex md:flex-col h-screen fixed">
+      <div className="p-4 border-b border-gray-200">
+        <h1 className="font-bold text-2xl text-primary">NexusAI</h1>
+        <p className="text-sm text-gray-500">Networking Automation</p>
+      </div>
+      
+      <div className="py-4 flex-grow overflow-y-auto">
+        <div className="px-4 py-2">
+          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Main</p>
+        </div>
+        
+        {navItems.map((item) => (
+          <NavItem 
+            key={item.href}
+            href={item.href}
+            icon={item.icon}
+            label={item.label}
+            isActive={location === item.href}
+          />
+        ))}
+        
+        <div className="px-4 py-2 mt-4">
+          <p className="text-xs text-gray-500 font-medium uppercase tracking-wider">Tools</p>
+        </div>
+        
+        {toolItems.map((item) => (
+          <NavItem 
+            key={item.href}
+            href={item.href}
+            icon={item.icon}
+            label={item.label}
+            isActive={location === item.href}
+          />
+        ))}
+      </div>
+      
+      {user && (
+        <div className="p-4 border-t border-gray-200">
+          <div className="flex items-center">
+            <Avatar className="h-10 w-10 mr-3">
+              {user.profileImage ? (
+                <AvatarImage src={user.profileImage} alt={user.fullName} />
+              ) : null}
+              <AvatarFallback>{getInitials(user.fullName)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-medium text-sm">{user.fullName}</p>
+              <p className="text-xs text-gray-500">{user.email}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
