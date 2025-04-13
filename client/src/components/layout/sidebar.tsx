@@ -3,11 +3,20 @@ import { Link, useLocation } from 'wouter';
 import { User } from '@shared/schema';
 import { useQuery } from '@tanstack/react-query';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import { 
+  LayoutDashboard, 
+  Briefcase, 
+  Users, 
+  Mail, 
+  BarChart, 
+  BrainCircuit, 
+  Settings,
+  LucideIcon
+} from 'lucide-react';
 
 interface NavItemProps {
   href: string;
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   isActive: boolean;
 }
@@ -23,9 +32,9 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
         }`}
       >
         <div className="flex items-center">
-          <span className={`material-icons mr-3 ${isActive ? 'text-primary' : 'text-textDark'}`}>
+          <div className={`mr-3 ${isActive ? 'text-primary' : 'text-gray-600'}`}>
             {icon}
-          </span>
+          </div>
           <span className={isActive ? 'font-medium text-primary' : ''}>
             {label}
           </span>
@@ -43,16 +52,16 @@ export function Sidebar() {
   });
 
   const navItems = [
-    { href: '/', icon: 'dashboard', label: 'Dashboard' },
-    { href: '/jobs', icon: 'work', label: 'Job Listings' },
-    { href: '/contacts', icon: 'people', label: 'Contacts' },
-    { href: '/marketing', icon: 'campaign', label: 'Marketing' },
-    { href: '/analytics', icon: 'analytics', label: 'Analytics' },
+    { href: '/', icon: <LayoutDashboard size={18} />, label: 'Dashboard' },
+    { href: '/jobs', icon: <Briefcase size={18} />, label: 'Job Listings' },
+    { href: '/contacts', icon: <Users size={18} />, label: 'Contacts' },
+    { href: '/marketing', icon: <Mail size={18} />, label: 'Marketing' },
+    { href: '/analytics', icon: <BarChart size={18} />, label: 'Analytics' },
   ];
 
   const toolItems = [
-    { href: '/gemini', icon: 'smart_toy', label: 'Gemini AI' },
-    { href: '/settings', icon: 'settings', label: 'Settings' },
+    { href: '/gemini', icon: <BrainCircuit size={18} />, label: 'Gemini AI' },
+    { href: '/settings', icon: <Settings size={18} />, label: 'Settings' },
   ];
 
   // Function to get initials from name
