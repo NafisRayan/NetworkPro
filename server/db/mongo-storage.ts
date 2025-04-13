@@ -193,18 +193,18 @@ export class MongoStorage implements IStorage {
       {
         title: 'Network Growth Opportunity',
         description: 'Your connection acceptance rate is 35% higher than industry average. Consider expanding your outreach to the tech sector.',
-        date: new Date('2023-06-20'),
-        category: 'network',
-        importance: 'High',
-        actions: ['Increase connection requests by 20%', 'Focus on tech industry professionals']
+        type: 'network',
+        category: 'growth',
+        actionLink: '/contacts',
+        actionText: 'View Contacts'
       },
       {
         title: 'Content Performance',
         description: 'Posts with images receive 3x more engagement than text-only posts. Consider incorporating more visual content.',
-        date: new Date('2023-06-18'),
-        category: 'content',
-        importance: 'Medium',
-        actions: ['Add images to weekly updates', 'Create infographics for key metrics']
+        type: 'content',
+        category: 'performance',
+        actionLink: '/marketing',
+        actionText: 'View Marketing'
       }
     ];
 
@@ -241,8 +241,9 @@ export class MongoStorage implements IStorage {
         password: user.password,
         fullName: user.fullName,
         email: user.email,
-        role: user.role,
-        profileImage: user.profileImage
+        profileImage: user.profileImage || null,
+        jobTitle: user.jobTitle || null,
+        company: user.company || null
       };
     } catch (error) {
       console.error('Error getting user:', error);
@@ -261,8 +262,9 @@ export class MongoStorage implements IStorage {
         password: user.password,
         fullName: user.fullName,
         email: user.email,
-        role: user.role,
-        profileImage: user.profileImage
+        profileImage: user.profileImage || null,
+        jobTitle: user.jobTitle || null,
+        company: user.company || null
       };
     } catch (error) {
       console.error('Error getting user by username:', error);
@@ -586,10 +588,10 @@ export class MongoStorage implements IStorage {
         id: insight._id,
         title: insight.title,
         description: insight.description,
-        date: insight.date,
+        type: insight.type,
         category: insight.category,
-        importance: insight.importance,
-        actions: insight.actions
+        actionLink: insight.actionLink || null,
+        actionText: insight.actionText || null
       }));
     } catch (error) {
       console.error('Error getting all insights:', error);
@@ -606,10 +608,10 @@ export class MongoStorage implements IStorage {
         id: insight._id,
         title: insight.title,
         description: insight.description,
-        date: insight.date,
+        type: insight.type,
         category: insight.category,
-        importance: insight.importance,
-        actions: insight.actions
+        actionLink: insight.actionLink || null,
+        actionText: insight.actionText || null
       };
     } catch (error) {
       console.error('Error getting insight:', error);
@@ -619,12 +621,24 @@ export class MongoStorage implements IStorage {
 
   async createInsight(insertInsight: InsertInsight): Promise<Insight> {
     try {
-      const newInsight = new InsightModel(insertInsight);
+      const newInsight = new InsightModel({
+        title: insertInsight.title,
+        description: insertInsight.description,
+        type: insertInsight.type,
+        category: insertInsight.category,
+        actionLink: insertInsight.actionLink || null,
+        actionText: insertInsight.actionText || null
+      });
       await newInsight.save();
       
       return {
         id: newInsight._id,
-        ...insertInsight
+        title: newInsight.title,
+        description: newInsight.description,
+        type: newInsight.type,
+        category: newInsight.category,
+        actionLink: newInsight.actionLink || null,
+        actionText: newInsight.actionText || null
       };
     } catch (error) {
       console.error('Error creating insight:', error);
