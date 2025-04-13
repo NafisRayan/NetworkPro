@@ -26,21 +26,22 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   fullName: { type: String, required: true },
   email: { type: String, required: true },
-  role: { type: String, default: 'user' },
   profileImage: { type: String, default: null },
+  jobTitle: { type: String, default: null },
+  company: { type: String, default: null },
 });
 
 // Job Schema
 const jobSchema = new mongoose.Schema({
   position: { type: String, required: true },
   company: { type: String, required: true },
+  companyLogo: { type: String, default: null },
   location: { type: String, required: true },
-  salary: { type: String, required: true },
+  salary: { type: String, default: null },
   description: { type: String, required: true },
-  requirements: { type: [String], default: [] },
+  matchPercentage: { type: Number, default: null },
   postedDate: { type: Date, default: Date.now },
-  closingDate: { type: Date },
-  matchPercentage: { type: Number, default: 0 },
+  source: { type: String, default: null },
 });
 
 // Contact Schema
@@ -60,13 +61,11 @@ const contactSchema = new mongoose.Schema({
 const campaignSchema = new mongoose.Schema({
   name: { type: String, required: true },
   type: { type: String, required: true },
+  description: { type: String, default: null },
   status: { type: String, default: 'Draft' },
-  startDate: { type: Date },
-  endDate: { type: Date },
-  budget: { type: Number },
-  progress: { type: Number, default: 0 },
   contacts: { type: Number, default: 0 },
-  performance: { type: Number },
+  startDate: { type: Date, default: null },
+  progress: { type: Number, default: 0 },
 });
 
 // Activity Schema
@@ -93,10 +92,10 @@ const analyticSchema = new mongoose.Schema({
 const insightSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
-  date: { type: Date, default: Date.now },
+  type: { type: String, required: true },
   category: { type: String, required: true },
-  importance: { type: String, default: 'Medium' },
-  actions: { type: [String], default: [] },
+  actionLink: { type: String, default: null },
+  actionText: { type: String, default: null },
 });
 
 // Create and export models

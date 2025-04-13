@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { MongoStorage } from "./db/mongo-storage";
 import { z } from "zod";
 import {
   insertJobSchema,
@@ -11,12 +12,15 @@ import {
   insertInsightSchema,
 } from "@shared/schema";
 
+// Initialize MongoDB storage
+const mongoStorage = new MongoStorage();
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Users routes
   app.get("/api/users/current", async (req, res) => {
     try {
       // For demo purposes, return a default user
-      const currentUser = await storage.getCurrentUser();
+      const currentUser = await mongoStorage.getCurrentUser();
       res.json(currentUser);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch current user" });
@@ -26,7 +30,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Jobs routes
   app.get("/api/jobs", async (req, res) => {
     try {
-      const jobs = await storage.getAllJobs();
+      const jobs = await mongoStorage.getAllJobs();
       res.json(jobs);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch jobs" });
@@ -39,7 +43,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid job data" });
       }
-      const job = await storage.createJob(validation.data);
+      const job = await mongoStorage.createJob(validation.data);
       res.status(201).json(job);
     } catch (error) {
       res.status(500).json({ message: "Failed to create job" });
@@ -49,7 +53,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Contacts routes
   app.get("/api/contacts", async (req, res) => {
     try {
-      const contacts = await storage.getAllContacts();
+      const contacts = await mongoStorage.getAllContacts();
       res.json(contacts);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch contacts" });
@@ -62,7 +66,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid contact data" });
       }
-      const contact = await storage.createContact(validation.data);
+      const contact = await mongoStorage.createContact(validation.data);
       res.status(201).json(contact);
     } catch (error) {
       res.status(500).json({ message: "Failed to create contact" });
@@ -72,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Marketing campaigns routes
   app.get("/api/campaigns", async (req, res) => {
     try {
-      const campaigns = await storage.getAllCampaigns();
+      const campaigns = await mongoStorage.getAllCampaigns();
       res.json(campaigns);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch campaigns" });
@@ -85,7 +89,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid campaign data" });
       }
-      const campaign = await storage.createCampaign(validation.data);
+      const campaign = await mongoStorage.createCampaign(validation.data);
       res.status(201).json(campaign);
     } catch (error) {
       res.status(500).json({ message: "Failed to create campaign" });
@@ -95,7 +99,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Activities routes
   app.get("/api/activities", async (req, res) => {
     try {
-      const activities = await storage.getAllActivities();
+      const activities = await mongoStorage.getAllActivities();
       res.json(activities);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch activities" });
@@ -108,7 +112,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid activity data" });
       }
-      const activity = await storage.createActivity(validation.data);
+      const activity = await mongoStorage.createActivity(validation.data);
       res.status(201).json(activity);
     } catch (error) {
       res.status(500).json({ message: "Failed to create activity" });
@@ -118,7 +122,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Analytics routes
   app.get("/api/analytics", async (req, res) => {
     try {
-      const analytics = await storage.getAllAnalytics();
+      const analytics = await mongoStorage.getAllAnalytics();
       res.json(analytics);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch analytics" });
@@ -131,7 +135,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid analytics data" });
       }
-      const analytic = await storage.createAnalytic(validation.data);
+      const analytic = await mongoStorage.createAnalytic(validation.data);
       res.status(201).json(analytic);
     } catch (error) {
       res.status(500).json({ message: "Failed to create analytic" });
@@ -141,7 +145,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Insights routes
   app.get("/api/insights", async (req, res) => {
     try {
-      const insights = await storage.getAllInsights();
+      const insights = await mongoStorage.getAllInsights();
       res.json(insights);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch insights" });
@@ -154,7 +158,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!validation.success) {
         return res.status(400).json({ message: "Invalid insight data" });
       }
-      const insight = await storage.createInsight(validation.data);
+      const insight = await mongoStorage.createInsight(validation.data);
       res.status(201).json(insight);
     } catch (error) {
       res.status(500).json({ message: "Failed to create insight" });
@@ -164,7 +168,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dashboard metrics route
   app.get("/api/dashboard/metrics", async (req, res) => {
     try {
-      const metrics = await storage.getDashboardMetrics();
+      const metrics = await mongoStorage.getDashboardMetrics();
       res.json(metrics);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch dashboard metrics" });
@@ -174,7 +178,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Network activity data for chart
   app.get("/api/dashboard/network-activity", async (req, res) => {
     try {
-      const activityData = await storage.getNetworkActivityData();
+      const activityData = await mongoStorage.getNetworkActivityData();
       res.json(activityData);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch network activity data" });
@@ -189,7 +193,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Missing required parameters" });
       }
       
-      const analysis = await storage.performAIAnalysis(text, type);
+      const analysis = await mongoStorage.performAIAnalysis(text, type);
       res.json(analysis);
     } catch (error) {
       res.status(500).json({ message: "AI analysis failed" });

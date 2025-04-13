@@ -1,10 +1,17 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { connectToMongoDB } from "./db/mongodb";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Connect to MongoDB Atlas
+connectToMongoDB().catch(err => {
+  log(`Failed to connect to MongoDB: ${err}`, 'mongodb');
+  process.exit(1);
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
