@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'wouter';
+import { Link, useLocation } from 'wouter';
 import { 
   CommandDialog, 
   CommandEmpty, 
@@ -16,7 +16,7 @@ import { Job, Contact, Campaign, Activity } from '@shared/schema';
 export function GlobalSearch() {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [_, setLocation] = useLocation();
+  const [location, setLocation] = useLocation();
 
   // Fetch data for search
   const { data: jobs } = useQuery<Job[]>({
@@ -76,7 +76,7 @@ export function GlobalSearch() {
   // Filter activities by search term
   const filteredActivities = activities?.filter(activity => 
     activity.title.toLowerCase().includes(search.toLowerCase()) || 
-    activity.description.toLowerCase().includes(search.toLowerCase())
+    (activity.description && activity.description.toLowerCase().includes(search.toLowerCase()))
   ) || [];
 
   return (
@@ -186,7 +186,11 @@ export function GlobalSearch() {
                   <FileText className="mr-2 h-4 w-4 text-primary" />
                   <div className="flex flex-col">
                     <span>{activity.title}</span>
-                    <span className="text-xs text-muted-foreground">{activity.description.substring(0, 40)}...</span>
+                    <span className="text-xs text-muted-foreground">
+                      {activity.description 
+                        ? `${activity.description.substring(0, 40)}...` 
+                        : 'No description'}
+                    </span>
                   </div>
                 </CommandItem>
               ))}
