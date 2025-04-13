@@ -1,4 +1,5 @@
 import { IStorage } from '../storage';
+import mongoose from 'mongoose';
 import { 
   User as UserModel, 
   Job as JobModel, 
@@ -37,8 +38,9 @@ export class MongoStorage implements IStorage {
       password: 'password123',
       fullName: 'Alex Morgan',
       email: 'alex@nexusai.com',
-      role: 'admin',
-      profileImage: null
+      profileImage: null,
+      jobTitle: 'Marketing Director',
+      company: 'NexusAI'
     };
 
     // Initialize the database with seed data if empty
@@ -56,8 +58,9 @@ export class MongoStorage implements IStorage {
           password: 'password123',
           fullName: 'Alex Morgan',
           email: 'alex@nexusai.com',
-          role: 'admin',
-          profileImage: null
+          profileImage: null,
+          jobTitle: 'Marketing Director',
+          company: 'NexusAI'
         };
         await this.createUser(defaultUser);
 
