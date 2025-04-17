@@ -27,7 +27,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
       <div 
         className={`block px-4 py-2 cursor-pointer ${
           isActive 
-            ? 'bg-primary bg-opacity-10 border-l-4 border-primary' 
+            ? 'bg-primary/15 border-l-4 border-primary' 
             : 'hover:bg-gray-100 border-l-4 border-transparent'
         }`}
       >
@@ -35,7 +35,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
           <div className={`mr-3 ${isActive ? 'text-primary' : 'text-gray-600'}`}>
             {icon}
           </div>
-          <span className={isActive ? 'font-medium text-primary' : ''}>
+          <span className={isActive ? 'font-medium text-primary' : 'text-gray-700'}>
             {label}
           </span>
         </div>
