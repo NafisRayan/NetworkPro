@@ -17,7 +17,7 @@ export function MobileSidebar() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="p-0 w-[280px]">
-          <Sidebar />
+          <Sidebar className="w-full h-full bg-white flex flex-col" />
         </SheetContent>
       </Sheet>
     </div>
