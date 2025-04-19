@@ -9,7 +9,6 @@ import Contacts from "@/pages/contacts";
 import Marketing from "@/pages/marketing";
 import Analytics from "@/pages/analytics";
 import Gemini from "@/pages/gemini";
-import { Layout } from "@/components/layout/layout";
 
 function Router() {
   return (
@@ -28,9 +27,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout>
-        <Router />
-      </Layout>
+      <Router />
       <Toaster />
     </QueryClientProvider>
   );

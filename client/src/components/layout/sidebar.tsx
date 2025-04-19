@@ -44,7 +44,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ className = "w-64 bg-white shadow-lg hidden md:flex md:flex-col h-screen" }: { className?: string }) {
   const [location] = useLocation();
   
   const { data: user } = useQuery<User>({
@@ -74,7 +74,7 @@ export function Sidebar() {
   };
 
   return (
-    <div className="w-64 bg-white shadow-lg hidden md:flex md:flex-col h-screen fixed">
+    <div className={className}>
       <div className="p-4 border-b border-gray-200">
         <h1 className="font-bold text-2xl text-primary">NexusAI</h1>
         <p className="text-sm text-gray-500">Networking Automation</p>
