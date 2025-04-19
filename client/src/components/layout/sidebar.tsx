@@ -44,7 +44,7 @@ function NavItem({ href, icon, label, isActive }: NavItemProps) {
   );
 }
 
-export function Sidebar({ className = "w-64 bg-white shadow-lg hidden md:flex md:flex-col h-screen fixed" }: { className?: string }) {
+export function Sidebar({ className = "w-64 bg-white shadow-lg hidden md:flex md:flex-col h-screen" }: { className?: string }) {
   const [location] = useLocation();
   
   const { data: user } = useQuery<User>({

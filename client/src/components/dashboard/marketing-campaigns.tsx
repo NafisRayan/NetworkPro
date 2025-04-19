@@ -27,32 +27,35 @@ export function MarketingCampaigns() {
   return (
     <Card>
       <CardHeader className="border-b">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col xs:flex-row xs:justify-between xs:items-center gap-2 xs:gap-0">
           <div>
-            <CardTitle>Marketing Campaigns</CardTitle>
-            <CardDescription className="mt-1">
+            <CardTitle className="text-base xs:text-lg">Marketing Campaigns</CardTitle>
+            <CardDescription className="mt-1 text-xs xs:text-sm">
               Track and manage your automated marketing campaigns
             </CardDescription>
           </div>
-          <Button variant="link" className="text-primary">
+          <Button variant="link" className="text-primary px-0 xs:px-2">
             Create New
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="p-4">
-        <div className="space-y-4">
+      <CardContent className="p-3 xs:p-4">
+        <div className="space-y-3 xs:space-y-4">
           {isLoading ? (
             <div className="text-center py-4">Loading campaigns...</div>
           ) : error ? (
             <div className="text-center py-4 text-red-500">Error loading campaigns</div>
           ) : campaigns && campaigns.length > 0 ? (
             campaigns.map((campaign) => (
-              <div key={campaign.id} className="border rounded-lg p-4">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-medium">{campaign.name}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{campaign.type}</p>
-                    <div className="mt-3 flex items-center space-x-3">
+              <div
+                key={campaign.id}
+                className="border rounded-lg p-3 xs:p-4"
+              >
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                  <div className="min-w-0">
+                    <h3 className="font-medium text-sm xs:text-base truncate">{campaign.name}</h3>
+                    <p className="text-xs xs:text-sm text-gray-500 mt-1 truncate">{campaign.type}</p>
+                    <div className="mt-2 xs:mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
                       <div className="flex items-center text-xs text-gray-500">
                         <span className="material-icons text-xs mr-1">person</span>
                         <span>{campaign.contacts} contacts</span>
@@ -63,18 +66,20 @@ export function MarketingCampaigns() {
                       </div>
                     </div>
                   </div>
-                  <div>
-                    <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
-                      campaign.status === 'Active' 
-                        ? 'bg-emerald-50 text-emerald-600' 
-                        : 'bg-gray-100 text-gray-600'
-                    }`}>
+                  <div className="mt-2 sm:mt-0">
+                    <div
+                      className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${
+                        campaign.status === "Active"
+                          ? "bg-emerald-50 text-emerald-600"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
                       <span>{campaign.status}</span>
                     </div>
                   </div>
                 </div>
-                
-                <div className="mt-4">
+
+                <div className="mt-3 xs:mt-4">
                   <div className="flex justify-between text-xs text-gray-500 mb-1">
                     <span>Progress</span>
                     <span>{campaign.progress}%</span>

@@ -26,7 +26,7 @@ export function ActivityChart() {
     );
   }
 
-  if (error || !data) {
+  if (error || !Array.isArray(data)) {
     return (
       <Card>
         <CardHeader>
@@ -39,7 +39,7 @@ export function ActivityChart() {
     );
   }
 
-  const totals = data.reduce(
+  const totals = (Array.isArray(data) ? data : []).reduce(
     (acc: { connections: number; messages: number; profile_views: number }, item: any) => {
       acc.connections += item.connections;
       acc.messages += item.messages;
@@ -72,7 +72,7 @@ export function ActivityChart() {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[240px]">
+        <div className="h-[180px] xs:h-[220px] sm:h-[240px] w-full overflow-x-auto">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={data}
@@ -117,18 +117,18 @@ export function ActivityChart() {
             </LineChart>
           </ResponsiveContainer>
         </div>
-        <div className="grid grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-3 gap-2 xs:gap-4 mt-3 xs:mt-4">
           <div className="text-center">
-            <p className="text-gray-500 text-sm">Connections</p>
-            <p className="font-semibold">{totals.connections}</p>
+            <p className="text-gray-500 text-xs xs:text-sm">Connections</p>
+            <p className="font-semibold text-base xs:text-lg">{totals.connections}</p>
           </div>
           <div className="text-center">
-            <p className="text-gray-500 text-sm">Messages</p>
-            <p className="font-semibold">{totals.messages}</p>
+            <p className="text-gray-500 text-xs xs:text-sm">Messages</p>
+            <p className="font-semibold text-base xs:text-lg">{totals.messages}</p>
           </div>
           <div className="text-center">
-            <p className="text-gray-500 text-sm">Profile Views</p>
-            <p className="font-semibold">{totals.profile_views}</p>
+            <p className="text-gray-500 text-xs xs:text-sm">Profile Views</p>
+            <p className="font-semibold text-base xs:text-lg">{totals.profile_views}</p>
           </div>
         </div>
       </CardContent>
